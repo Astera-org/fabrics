@@ -25,19 +25,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.10"
-      - name: Install poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          installer-parallel: true
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.1.0
 
       - name: Initialize mandatory git config
         run: |
           git config user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config user.email "noreply@github.com"
       - name: Set version variable
-        run: echo "VERSION=$(poetry version -s)" >> $GITHUB_ENV
+        run: echo "VERSION=$(uv version --short)" >> $GITHUB_ENV
       - name: Create release branch
         run: git checkout -b release/v$VERSION
       - name: Generate a changelog
@@ -53,7 +49,7 @@ jobs:
           git add CHANGELOG.md
           git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
       - name: Builds python package
-        run: poetry build
+        run: uv build
       - name: Create a tag
         run: git tag -a v$VERSION -m "v${{ env.VERSION }}"
       - name: Create a release
@@ -69,14 +65,12 @@ jobs:
           git checkout -b master origin/master
           git merge origin/release/v$VERSION
           git push origin master
-      - name: Publish to pypi
-        uses: JRubics/poetry-publish@v1.13
-        with:
-          python_version: "3.8"
-          pypi_token: ${{ secrets.PYPI_TOKEN }}
+      - name: Publish to PyPI
+        run: uv publish dist/*
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
       - name: Update develop branch
         run: |
           git checkout develop
           git merge origin/master
           git push origin develop
-
