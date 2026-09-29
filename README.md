@@ -39,23 +39,22 @@ Motion Policies and offers increased stability and accessibility.
 
 ## Installation
 
-Install the package through pip, using 
-```bash
-pip3 install ".<options>"
-```
-or from PyPI using
+Install the package from PyPI using
 ```bash
 pip3 install fabrics
 ```
-Options are [agents] and [tutorials]. Those can be installed using
-```
-pip3 install ".[agents]"
-pip3 install ".[tutorials]"
-```
 
-Install the package through poetry, using
+Install the project and its core dependencies from a checkout using
 ```bash
-poetry install --with <option>
+uv sync
+```
+The checkout pins Python 3.12 so uv can use prebuilt wheels for the native
+tutorial dependencies.
+
+Optional dependency groups are `agents`, `dev`, `mujoco`, `pybullet`, and
+`tutorials`. Install one using
+```bash
+uv sync --group <group>
 ```
 
 ## Publications
@@ -111,9 +110,9 @@ https://github.com/tud-amr/localPlannerBench
 This repository contains brief examples corresponding to the theory presented
 in "Optimization Fabrics" by Ratliff et al. https://arxiv.org/abs/2008.02399.
 These examples are named according to the naming in that publication. Each
-script is self-contained and required software is installed using 
+script is self-contained and required software is installed using
 ```bash
-pip install ".[tutorials]"
+uv sync --group tutorials
 ```
 ## Related works and websites
 
@@ -137,4 +136,3 @@ list of all relevant links:
 - https://www.youtube.com/watch?v=aM9Ha2IawEo
 - https://www.youtube.com/watch?v=awiF6JjDEbo
 - https://www.youtube.com/watch?v=VsM-kdk74d8
-
