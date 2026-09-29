@@ -1,67 +1,59 @@
-[tool.poetry]
+[project]
 name = "fabrics"
 version = "0.10.0"
 description = "Optimization fabrics in python."
-authors = ["Max Spahn <m.spahn@tudelft.nl>"]
+authors = [
+    { name = "Max Spahn", email = "m.spahn@tudelft.nl" },
+]
 readme = "README.md"
 license = "GPL-3.0-or-later"
-repository = "https://tud-amr/fabrics"
+requires-python = ">=3.10,<4.0"
 keywords = ["robotics", "motion-planning", "geometry"]
+dependencies = [
+    "casadi>=3.5.5",
+    "deprecation>=2.1.0,<3.0.0",
+    "forwardkinematics>=1.2.2,<2.0.0",
+    "geomdl>=5.3.1,<6.0.0",
+    "mpscenes>=0.4,<0.5",
+    "numpy>=1.15.3,<2.0.0",
+    "pickle-mixin>=1.0.2,<2.0.0",
+    "pynput>=1.7.6,<2.0.0",
+    "pyquaternion>=0.9.9,<0.10.0",
+    "quaternionic>=1.0.0,<2.0.0",
+    "vector>=1.1.1,<2.0.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-casadi = ">=3.5.5"
-numpy = "^1.15.3"
-geomdl = "^5.3.1"
-pyquaternion = "^0.9.9"
-pickle-mixin = "^1.0.2"
-quaternionic = "^1.0.0"
-mpscenes = "^0.4"
-pynput = "^1.7.6"
-vector = "^1.1.1"
-pytest = "6.2.5"
-deprecation = "^2.1.0"
-forwardkinematics = "^1.2.2"
+[project.urls]
+Repository = "https://tud-amr/fabrics"
 
-[tool.poetry.group.dev]
-optional = true
+[dependency-groups]
+agents = [
+    "planarenvs>=1.5.1,<2.0.0",
+    "urdfenvs @ git+https://github.com/maxspahn/gym_envs_urdf.git@develop",
+]
+dev = [
+    "black>=23.9.1,<24.0.0",
+    "isort>=5.13.2,<6.0.0",
+    "pylint>=2.13.4,<3.0.0",
+    "pytest>=9.0.0,<10.0.0",
+    "pytest-cov>=7.0.0,<8.0.0",
+]
+mujoco = [
+    "dm-control>=1.0.26,<2.0.0",
+    "imageio>=2.36.1,<3.0.0",
+]
+pybullet = [
+    "pybullet>=3.2.1,<4.0.0",
+]
+tutorials = [
+    "jupyterlab>=4.0.0,<5.0.0",
+    "matplotlib>=3.7.0,<4.0.0",
+    "planarenvs>=1.5.1,<2.0.0",
+]
 
-[tool.poetry.group.dev.dependencies]
-pylint = "^2.13.4"
-pytest = "^6.2.5"
-pytest-cov = "^4.0.0"
-black = "^23.9.1"
-isort = "^5.13.2"
-
-[tool.poetry.group.tutorials]
-optional = true
-
-[tool.poetry.group.tutorials.dependencies]
-matplotlib = "^3.7.0"
-jupyterlab = "^3.6.1"
-planarenvs = "^1.5.1"
-
-[tool.poetry.group.agents]
-optional = true
-
-[tool.poetry.group.agents.dependencies]
-planarenvs = "^1.5.1"
-urdfenvs = {git = "https://github.com/maxspahn/gym_envs_urdf.git", rev = "develop"}
-
-[tool.poetry.group.mujoco]
-optional = true
-
-[tool.poetry.group.mujoco.dependencies]
-dm-control = "^1.0.26"
-imageio = "^2.36.1"
-
-[tool.poetry.group.pybullet]
-optional = true
-
-[tool.poetry.group.pybullet.dependencies]
-pybullet = "^3.2.1"
-
+[tool.uv]
+default-groups = []
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
